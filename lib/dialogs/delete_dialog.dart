@@ -206,7 +206,7 @@ class _DeleteDialogState extends State<DeleteDialog> {
       _displaySnackBar(context, 'Se ha cancelado su reservación con éxito', 2);
 
       Future.delayed(Duration(seconds: 3)).whenComplete(
-          () => Navigator.of(context).popUntil(ModalRoute.withName('/')));
+          () => Navigator.of(context).pop(false));
     } catch (e) {
       setState(() {
         loading = false;

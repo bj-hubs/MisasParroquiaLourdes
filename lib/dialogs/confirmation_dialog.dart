@@ -227,16 +227,18 @@ class _ConfirmationDialogState extends State<ConfirmationDialog> {
               .where('id', isEqualTo: widget.assistands[i])
               .get()
               .then((value) => {
-                    Global.firestore
-                        .collection(Global.usersRef)
-                        .doc(value.docs.first.id)
-                        .collection(Global.reservationsRef)
-                        .doc(widget.massId)
-                        .set({
-                      'massRef': mass,
-                      'date': widget.date,
-                      'subsidiary': widget.subsidiaryIndex
-                    })
+                    if(value.docs.isNotEmpty){
+                        Global.firestore
+                          .collection(Global.usersRef)
+                          .doc(value.docs.first.id)
+                          .collection(Global.reservationsRef)
+                          .doc(widget.massId)
+                          .set({
+                        'massRef': mass,
+                        'date': widget.date,
+                        'subsidiary': widget.subsidiaryIndex
+                      })
+                    }
                   });
         }
 
