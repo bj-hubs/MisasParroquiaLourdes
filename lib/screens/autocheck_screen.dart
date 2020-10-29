@@ -39,9 +39,19 @@ class _AutocheckScreenState extends State<AutocheckScreen> {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 20.0, bottom: 25.0),
-                    child: Text(
-                      'Esta es una AUTOEVALUACIÓN, si presenta sintomas o cree que puede portar el virus comuníquese con un médico.',
-                      style: TextStyle(fontSize: 18,),
+                    child: RichText(
+                      text: TextSpan(
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 18
+                        ),
+                        children: [
+                          new TextSpan(text: 'Esta es una '),
+                          new TextSpan(text: 'AUTOEVALUACIÓN', style: TextStyle(color: Global.primary, fontWeight: FontWeight.bold)),
+                          new TextSpan(text: ', si presenta sintomas o cree que puede portar el virus llame a los servicios para realizar una prueba de COVID-19 y '),
+                          new TextSpan(text: 'evite el contacto con otras personas.', style: TextStyle(color: Global.primary, fontWeight: FontWeight.bold))
+                        ]
+                      ),
                     ),
                   ),
                   RaisedButton(

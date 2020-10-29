@@ -1,3 +1,4 @@
+import 'package:Misas/dialogs/dialog_helper.dart';
 import 'package:Misas/shared/global.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -10,16 +11,31 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
+    String fullname =
+        '${Global.userInfo.name} ${Global.userInfo.lastname} ${Global.userInfo.secondLastname}';
+    String id = '${Global.userInfo.id}';
+    String phone = '${Global.userInfo.phone}';
+
     return Scaffold(
       bottomNavigationBar: BottomAppBar(
         color: Colors.white.withAlpha(0),
         child: SizedBox(),
       ),
       appBar: AppBar(
-        centerTitle: true,
-        title: Text('Cuenta'),
-        backgroundColor: Global.primary,
-      ),
+          centerTitle: true,
+          title: Text('Cuenta'),
+          backgroundColor: Global.primary,
+          actions: [
+            GestureDetector(
+              onTap: () {
+                DialogHelper.logout(context);
+              },
+              child: Padding(
+                padding: const EdgeInsets.only(right: 20.0),
+                child: Icon(FontAwesomeIcons.signOutAlt),
+              ),
+            ),
+          ]),
       body: Center(
         child: SingleChildScrollView(
           child: Column(
@@ -67,7 +83,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
-                                  'BENOIT JAMAL POYSER ACUÑA',
+                                  '$fullname',
                                   style: TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold),
@@ -76,14 +92,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
-                                  'Cédula: 1-17310-982',
+                                  'Identificación: $id',
                                   style: TextStyle(fontSize: 18),
                                 ),
                               ),
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
-                                  'Teléfono: +506 61160002',
+                                  'Teléfono: $phone',
                                   style: TextStyle(fontSize: 18),
                                 ),
                               ),
@@ -99,7 +115,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     alignment: Alignment.bottomRight,
                     child: RawMaterialButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        DialogHelper.editProfile(context);
+                      },
                       elevation: 2.0,
                       fillColor: Global.primary,
                       child: Icon(
@@ -150,7 +168,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           child: RaisedButton(
                             color: Global.primary,
                             onPressed: () {
-                              Navigator.of(context).pushNamed('/profile/autocheck');
+                              Navigator.of(context)
+                                  .pushNamed('/profile/autocheck');
                             },
                             child: Padding(
                               padding: const EdgeInsets.all(25.0),

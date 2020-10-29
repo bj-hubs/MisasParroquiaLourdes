@@ -1,19 +1,29 @@
 import 'package:Misas/screens/help_screen.dart';
-import 'package:Misas/screens/login_screen.dart';
 import 'package:Misas/screens/mass_screen.dart';
 import 'package:Misas/screens/profile_screen.dart';
+import 'package:Misas/services/auth_service.dart';
 import 'package:Misas/shared/global.dart';
 import 'package:Misas/shared/route_generator.dart';
 import 'package:fancy_bottom_navigation/fancy_bottom_navigation.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   runApp(App());
 }
 
-class App extends StatelessWidget {
-  // This widget is the root of your application.
+class App extends StatefulWidget {
+  @override
+  _AppState createState() => _AppState();
+}
+
+class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) => MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -23,7 +33,7 @@ class App extends StatelessWidget {
             child: child,
           );
         },
-        home: LogInScreen(),
+        home: AuthService().handleAuth(),
         onGenerateRoute: RouteGenerator.generateRoute,
       );
 }
@@ -34,6 +44,28 @@ class BottomNavBar extends StatefulWidget {
 }
 
 class _BottomNavBarState extends State<BottomNavBar> {
+  var firebaseUser = FirebaseAuth.instance.currentUser;
+
+  @override
+  void initState() {
+    isRegistered(context);
+    super.initState();
+  }
+
+  isRegistered(context) async {
+    Global.firestore
+        .collection(Global.usersRef)
+        .doc(firebaseUser.uid)
+        .get()
+        .then((value) {
+      if (!value.exists)
+        Navigator.of(context).pushNamed('/signin');
+      else {
+        initUser();
+      }
+    });
+  }
+
   final MassScreen _mass = MassScreen();
   final HelpScreen _help = HelpScreen();
   final ProfileScreen _profile = ProfileScreen();
@@ -87,7 +119,10 @@ class _BottomNavBarState extends State<BottomNavBar> {
             iconData: FontAwesomeIcons.calendarAlt,
             title: 'MISAS',
           ),
-          TabData(iconData: FontAwesomeIcons.question, title: 'AYUDA')
+          TabData(
+            iconData: FontAwesomeIcons.phone,
+            title: 'CONTÁCTO',
+          ),
         ],
         initialSelection: 1,
         key: _bottonNavigationKey,
@@ -98,6 +133,26 @@ class _BottomNavBarState extends State<BottomNavBar> {
         },
       ),
     );
+  }
+
+  initUser() async {
+    Map<String, dynamic> data;
+    await Global.firestore
+        .collection(Global.usersRef)
+        .doc(firebaseUser.uid)
+        .get()
+        .then(
+          (value) => {
+            data = value.data(),
+            Global.initUserInfo(
+              data['id'],
+              data['name'],
+              data['lastname'],
+              data['secondLastname'],
+              data['phone'],
+            ),
+          },
+        );
   }
 }
 

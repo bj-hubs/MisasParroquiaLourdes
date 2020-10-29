@@ -26,7 +26,7 @@ class _MassScreenState extends State<MassScreen> {
       bottomNavigationBar: BottomAppBar(color: Colors.white.withAlpha(0), child: SizedBox(),),
       appBar: AppBar(
         centerTitle: true,
-        title: Text('Filiales'),
+        title: Text('Misas'),
         backgroundColor: Global.primary,
       ),
       body: SingleChildScrollView(
@@ -145,7 +145,9 @@ class _MassScreenState extends State<MassScreen> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: (){},
+        onPressed: (){
+          Navigator.of(context).pushNamed('/mass/delete');
+        },
         child: Icon(FontAwesomeIcons.solidTrashAlt),
         backgroundColor: Global.primary,
       ),

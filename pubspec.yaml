@@ -30,12 +30,13 @@ dependencies:
 
   international_phone_input: ^1.0.4
   pin_code_fields: ^3.1.2
+  mask_text_input_formatter: ^1.1.0
 
-  firebase_core: ^0.4.5
-  cloud_firestore: ^0.13.7
-  firebase_helpers: ^0.1.9
-  firebase_auth: ^0.16.1
-  firebase_storage: ^3.1.6
+  firebase_core: ^0.5.0+1
+  firebase_auth: ^0.18.1+2
+  cloud_firestore: ^0.14.1+3
+
+  url_launcher: ^5.5.0
 
 dev_dependencies:
   flutter_test:

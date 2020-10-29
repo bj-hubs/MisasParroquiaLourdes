@@ -1,13 +1,12 @@
+import 'package:Misas/main.dart';
 import 'package:Misas/screens/login_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import '../main.dart';
-
 class AuthService{
   handleAuth(){
     return StreamBuilder(
-      stream:  FirebaseAuth.instance.onAuthStateChanged,
+      stream:  FirebaseAuth.instance.authStateChanges(),
       builder: (BuildContext context, snapshot){
         if(snapshot.hasData){
           return BottomNavBar();
@@ -23,7 +22,7 @@ class AuthService{
   }
 
   signInWithOTP(smsCode, verId, context) {
-    AuthCredential authCreds = PhoneAuthProvider.getCredential(verificationId: verId, smsCode: smsCode);
+    AuthCredential authCreds = PhoneAuthProvider.credential(verificationId: verId, smsCode: smsCode);
     signIn(authCreds);
   }
 

@@ -4,11 +4,12 @@ import 'package:flutter/material.dart';
 class ButtonContainer extends StatelessWidget {
   final String text;
   final Color color;
+  final Color txtColor;
   final double width;
   final Function action;
 
   const ButtonContainer(
-      {Key key, this.text, this.color = Global.secondary, this.width = 300, this.action})
+      {Key key, this.text, this.color = Global.secondary, this.width = 300, this.action, this.txtColor = Colors.black54})
       : super(key: key);
 
   @override
@@ -20,10 +21,10 @@ class ButtonContainer extends StatelessWidget {
         child: RaisedButton(
           onPressed: action,
           child: Padding(
-            padding: const EdgeInsets.all(15.0),
+            padding: const EdgeInsets.only(top: 15.0, bottom: 15.0, left: 5.0, right: 5.0),
             child: Text(
               text,
-              style: TextStyle(color: Colors.black54, fontSize: 20),
+              style: TextStyle(color: txtColor, fontSize: 18),
             ),
           ),
           color: color,
