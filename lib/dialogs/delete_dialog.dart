@@ -120,10 +120,14 @@ class _DeleteDialogState extends State<DeleteDialog> {
               loading
                   ? Center(
                       child: Container(
-                        height: 270,
-                        alignment: AlignmentDirectional.bottomCenter,
+                        height: 300,
+                        decoration: BoxDecoration(
+                          color: Colors.black26,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        alignment: AlignmentDirectional.center,
                         child: CircularProgressIndicator(
-                          backgroundColor: Global.primary,
+                          backgroundColor: Colors.white,
                         ),
                       ),
                     )

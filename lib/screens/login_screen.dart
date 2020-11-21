@@ -130,7 +130,6 @@ class _LogInScreenState extends State<LogInScreen> {
 
   Future<void> verifyPhone(phoneNo) async {
     FirebaseAuth auth = FirebaseAuth.instance;
-
     await auth.verifyPhoneNumber(
       phoneNumber: phoneNo,
       verificationCompleted: (PhoneAuthCredential credential) async {

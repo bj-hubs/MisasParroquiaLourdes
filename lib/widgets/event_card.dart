@@ -115,7 +115,7 @@ class _CardEventState extends State<CardEvent> {
   }
 
   checkMass() {
-      Global.firestore
+    Global.firestore
         .collection(Global.subsidiaryRef)
         .doc(widget.index.toString())
         .collection(Global.massRef)

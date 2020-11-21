@@ -43,6 +43,9 @@ class _VerifyCodeDialogState extends State<VerifyCodeDialog> {
       Duration(seconds: 1),
       (Timer timer) => setState(
         () {
+          if(Global.isLogged){
+            Navigator.of(context).pop();
+          }
           if (_time < 1) {
             btnEnabled = true;
             timer.cancel();
@@ -126,7 +129,6 @@ class _VerifyCodeDialogState extends State<VerifyCodeDialog> {
                       controller: _code,
                       onCompleted: (v) {
                         AuthService().signInWithOTP(_code.text, verId, context);
-                        Navigator.of(context).pop();
                       },
                       onChanged: (value) {
                         setState(() {});

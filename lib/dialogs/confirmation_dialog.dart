@@ -29,6 +29,7 @@ class ConfirmationDialog extends StatefulWidget {
 class _ConfirmationDialogState extends State<ConfirmationDialog> {
   bool _nextEnabled = true;
   bool _cancelEnabled = true;
+  bool loading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -41,12 +42,12 @@ class _ConfirmationDialogState extends State<ConfirmationDialog> {
             ),
             elevation: 0,
             backgroundColor: Colors.transparent,
-            child: _content(context),
+            child: _content(context, loading),
           ),
         ));
   }
 
-  _content(BuildContext context) => SingleChildScrollView(
+  _content(BuildContext context, loading) => SingleChildScrollView(
         child: Container(
           height: 370,
           decoration: BoxDecoration(
@@ -54,131 +55,150 @@ class _ConfirmationDialogState extends State<ConfirmationDialog> {
               shape: BoxShape.rectangle,
               borderRadius: BorderRadius.circular(12)),
           child: SingleChildScrollView(
-            child: Column(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Container(
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                        color: Global.primary,
-                        shape: BoxShape.rectangle,
-                        borderRadius: BorderRadius.circular(12)),
-                    child: Padding(
-                      padding: const EdgeInsets.all(15),
-                      child: Text(
-                        'Verifique los Datos',
-                        style: TextStyle(fontSize: 25.0, color: Colors.white),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 20.0, right: 20.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
+            child: Stack(
+              children: [
+                Column(
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Container(
                         width: double.infinity,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: Global.secondary.withOpacity(0.3),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                'Misa del ${widget.day} ${widget.date.day} de ${Global.getMonth(widget.date.month)}',
-                                style: TextStyle(fontSize: 16),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                Global
-                                    .subsidiaries[widget.subsidiaryIndex].name,
-                                style: TextStyle(fontSize: 16),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                Global.subsidiaries[widget.subsidiaryIndex]
-                                    .community,
-                                style: TextStyle(fontSize: 16),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                'Horario de ${widget.date.hour}:${widget.date.minute.toString().padLeft(2, '0')}',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: widget.people == 1
-                                  ? Text(
-                                      '1 Campo Reservado',
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                      ),
-                                    )
-                                  : Text(
-                                      '${widget.people} Campos Reservados',
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                      ),
-                                    ),
-                            ),
-                          ],
+                            color: Global.primary,
+                            shape: BoxShape.rectangle,
+                            borderRadius: BorderRadius.circular(12)),
+                        child: Padding(
+                          padding: const EdgeInsets.all(15),
+                          child: Text(
+                            'Verifique los Datos',
+                            style: TextStyle(fontSize: 25.0, color: Colors.white),
+                            textAlign: TextAlign.center,
+                          ),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left: 20.0, right: 20.0, top: 20.0, bottom: 10.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            RaisedButton(
-                              onPressed: _nextEnabled
-                                  ? () {
-                                      saveSpace(context);
-                                    }
-                                  : null,
-                              color: Colors.green[400],
-                              child: Icon(
-                                FontAwesomeIcons.check,
-                                color: Colors.black45,
-                              ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: Global.secondary.withOpacity(0.3),
                             ),
-                            RaisedButton(
-                              onPressed: _cancelEnabled
-                                  ? () {
-                                      DialogHelper.assistands = null;
-                                      Navigator.of(context).pop(false);
-                                    }
-                                  : null,
-                              color: Colors.red[300],
-                              child: Icon(
-                                FontAwesomeIcons.times,
-                                color: Colors.black45,
-                              ),
-                            )
-                          ],
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    'Misa del ${widget.day} ${widget.date.day} de ${Global.getMonth(widget.date.month)}',
+                                    style: TextStyle(fontSize: 16),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    Global
+                                        .subsidiaries[widget.subsidiaryIndex].name,
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    Global.subsidiaries[widget.subsidiaryIndex]
+                                        .community,
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    'Horario de ${widget.date.hour}:${widget.date.minute.toString().padLeft(2, '0')}',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: widget.people == 1
+                                      ? Text(
+                                          '1 Campo Reservado',
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                          ),
+                                        )
+                                      : Text(
+                                          '${widget.people} Campos Reservados',
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                          ),
+                                        ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                left: 20.0, right: 20.0, top: 20.0, bottom: 10.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                RaisedButton(
+                                  onPressed: _nextEnabled
+                                      ? () {
+                                          saveSpace(context);
+                                        }
+                                      : null,
+                                  color: Colors.green[400],
+                                  child: Icon(
+                                    FontAwesomeIcons.check,
+                                    color: Colors.black45,
+                                  ),
+                                ),
+                                RaisedButton(
+                                  onPressed: _cancelEnabled
+                                      ? () {
+                                          DialogHelper.assistands = null;
+                                          Navigator.of(context).pop(false);
+                                        }
+                                      : null,
+                                  color: Colors.red[300],
+                                  child: Icon(
+                                    FontAwesomeIcons.times,
+                                    color: Colors.black45,
+                                  ),
+                                )
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+                loading
+                  ? Center(
+                      child: Container(
+                        height: 370,
+                        decoration: BoxDecoration(
+                          color: Colors.black26,
+                          borderRadius: BorderRadius.circular(12),
                         ),
-                      )
-                    ],
-                  ),
-                )
+                        alignment: AlignmentDirectional.center,
+                        child: CircularProgressIndicator(
+                          backgroundColor: Colors.white,
+                        ),
+                      ),
+                    )
+                  : Container(),
               ],
             ),
           ),
@@ -186,6 +206,12 @@ class _ConfirmationDialogState extends State<ConfirmationDialog> {
       );
 
   saveSpace(context) async {
+    setState(() {
+      loading = true;
+      _nextEnabled = false;
+      _cancelEnabled = false;
+    });
+
     int total = 0;
     int current = 0;
 
@@ -214,7 +240,7 @@ class _ConfirmationDialogState extends State<ConfirmationDialog> {
       });
 
       if (widget.assistands != null)
-        for (int i = 0; i < widget.people - 1; i += 3) {
+        for (int i = 0; i < (widget.people - 1) * 3; i += 3) {
           await mass.collection(Global.assistandRef).add({
             'id': widget.assistands[i],
             'phone': widget.assistands[i + 1],
@@ -276,15 +302,16 @@ class _ConfirmationDialogState extends State<ConfirmationDialog> {
               context, 'Su espacio ha sido reservado con éxito', 2);
 
       setState(() {
-        _nextEnabled = false;
-        _cancelEnabled = false;
+        loading = false;
       });
 
       new Future.delayed(Duration(seconds: 3)).whenComplete(() =>
           {Navigator.of(context).pop(false), DialogHelper.rules(context)});
     } else {
       setState(() {
+        loading = false;
         _nextEnabled = false;
+        _cancelEnabled = true;
       });
 
       _displaySnackBar(

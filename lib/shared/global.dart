@@ -16,6 +16,9 @@ abstract class Global{
   static const String assistandRef = 'assistand';
   static const String reservationsRef = 'reservations';
 
+  //User
+  static bool isLogged;
+
   //Subsidiaries
   static List<Subsidiary> subsidiaries = new List<Subsidiary>();
   static fillSubsidiaries(){

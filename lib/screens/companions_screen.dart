@@ -54,7 +54,7 @@ class _CompanionsScreenState extends State<CompanionsScreen> {
   CupertinoStepper _buildStepper(StepperType type, context) {
     final canCancel = currentStep > 0;
     final canContinue = currentStep < widget.quantity;
-    pos = currentStep != 0 ? pos = currentStep + 2 : currentStep;
+    pos = currentStep != 0 ? pos = currentStep * 3 : currentStep;
     return CupertinoStepper(
       type: type,
       currentStep: currentStep,
@@ -226,7 +226,8 @@ class _CompanionsScreenState extends State<CompanionsScreen> {
     int spaces = widget.quantity * 3;
     for (var i = 0; i < spaces; i++) {
       if (info[i] == 'empty' || info[i].toString().isEmpty) {
-        _displaySnackBar(context, 'ERROR: Verifique los datos ingresados $i', 3);
+        String error = getError(i);
+        _displaySnackBar(context, 'ERROR: Verifique los datos ingresados -> $error', 3);
         ok = false;
         break;
       }
@@ -260,5 +261,26 @@ class _CompanionsScreenState extends State<CompanionsScreen> {
         info[pos + 1] = 'empty';
       }
     });
+  }
+
+  String getError(int value){
+    switch (value) {
+      case 0: return 'Cédula del primer acompañante'; break;
+      case 1: return 'Teléfono del primer acompañante'; break;
+      case 2: return 'Nombre del primer acompañante'; break;
+      case 3: return 'Cédula del segundo acompañante'; break;
+      case 4: return 'Teléfono del segundo acompañante'; break;
+      case 5: return 'Nombre del segundo acompañante'; break;
+      case 6: return 'Cédula del tercer acompañante'; break;
+      case 7: return 'Teléfono del tercer acompañante'; break;
+      case 8: return 'Nombre del tercer acompañante'; break;
+      case 9: return 'Cédula del cuarto acompañante'; break;
+      case 10: return 'Teléfono del cuarto acompañante'; break;
+      case 11: return 'Nombre del cuarto acompañante'; break;
+      case 12: return 'Cédula del quinto acompañante'; break;
+      case 13: return 'Teléfono del quinto acompañante'; break;
+      case 14: return 'Nombre del quinto acompañante'; break;
+      default: 'Error no definido'; break;
+    }
   }
 }

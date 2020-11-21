@@ -22,20 +22,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
         child: SizedBox(),
       ),
       appBar: AppBar(
-          centerTitle: true,
-          title: Text('Cuenta'),
-          backgroundColor: Global.primary,
-          actions: [
-            GestureDetector(
-              onTap: () {
-                DialogHelper.logout(context);
-              },
-              child: Padding(
-                padding: const EdgeInsets.only(right: 20.0),
-                child: Icon(FontAwesomeIcons.signOutAlt),
-              ),
-            ),
-          ]),
+        centerTitle: true,
+        title: Text('Cuenta'),
+        backgroundColor: Global.primary,
+      ),
       body: Center(
         child: SingleChildScrollView(
           child: Column(
