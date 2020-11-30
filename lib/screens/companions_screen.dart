@@ -158,7 +158,7 @@ class _CompanionsScreenState extends State<CompanionsScreen> {
                     if(value == Global.userInfo.id)
                       info[pos] = 'sameID';
                     else
-                      info[pos] = controllers[currentStep].text;
+                      info[pos] = controllers[currentStep].text; 
                   }
                   else
                     info[pos] = 'empty';
@@ -280,7 +280,7 @@ class _CompanionsScreenState extends State<CompanionsScreen> {
       case 12: return 'Cédula del quinto acompañante'; break;
       case 13: return 'Teléfono del quinto acompañante'; break;
       case 14: return 'Nombre del quinto acompañante'; break;
-      default: 'Error no definido'; break;
+      default: return 'Error no definido'; break;
     }
   }
 }
