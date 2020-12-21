@@ -1,12 +1,13 @@
-import 'package:Misas/shared/global.dart';
-import 'package:Misas/widgets/button_container.dart';
+import 'package:misas/shared/global.dart';
+import 'package:misas/widgets/button_container.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class AloneDialog extends StatefulWidget {
-  final int subsidiaryIndex;
+  final int subsidiaryIndex ;
+  final int inArrayPosition;
 
-  const AloneDialog({Key key, @required this.subsidiaryIndex})
+  const AloneDialog({Key key, @required this.subsidiaryIndex, this.inArrayPosition})
       : super(key: key);
 
   @override
@@ -59,13 +60,13 @@ class _AloneDialogState extends State<AloneDialog> {
                     text: 'Solo Yo',
                     action: () {
                       Navigator.of(context).pushNamed('/mass/choose',
-                          arguments: [widget.subsidiaryIndex.toString(), '1']);
+                          arguments: [widget.subsidiaryIndex.toString(), '1', widget.inArrayPosition.toString()]);
                     },
                   ),
                   ButtonContainer(
                     text: 'Con Acompañante(s)',
                     action: () {
-                      Navigator.of(context).pushNamed('/mass/quantity', arguments: widget.subsidiaryIndex);
+                      Navigator.of(context).pushNamed('/mass/quantity', arguments: [widget.subsidiaryIndex.toString(),  widget.inArrayPosition.toString()]);
                     },
                   ),
                   Padding(

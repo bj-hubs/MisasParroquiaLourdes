@@ -1,5 +1,5 @@
-import 'package:Misas/dialogs/dialog_helper.dart';
-import 'package:Misas/shared/global.dart';
+import 'package:misas/dialogs/dialog_helper.dart';
+import 'package:misas/shared/global.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -10,12 +10,11 @@ class MassScreen extends StatefulWidget {
 }
 
 class _MassScreenState extends State<MassScreen> {
-  List<Image> imgs = new List<Image>();
+  List<Image> imgs = <Image>[];
   int _current = 0;
 
   @override
   void initState() {
-    if (Global.subsidiaries.isEmpty) Global.fillSubsidiaries();
     super.initState();
   }
 
@@ -41,7 +40,7 @@ class _MassScreenState extends State<MassScreen> {
                 CarouselSlider(
                   options: CarouselOptions(
                       autoPlay: true,
-                      autoPlayInterval: Duration(seconds: 7),
+                      autoPlayInterval: Duration(seconds: 5),
                       enlargeCenterPage: true,
                       enlargeStrategy: CenterPageEnlargeStrategy.height,
                       height: size.height * 0.8,
@@ -65,7 +64,7 @@ class _MassScreenState extends State<MassScreen> {
                                 boxShadow: [
                                   BoxShadow(
                                       color: Colors.grey.withOpacity(0.5),
-                                      spreadRadius: 5,
+                                      spreadRadius: 7,
                                       blurRadius: 10,
                                       offset: Offset(0, 1)),
                                 ],
@@ -95,7 +94,8 @@ class _MassScreenState extends State<MassScreen> {
                                   ),
                                   GestureDetector(
                                     onTap: () {
-                                      DialogHelper.subsidiary = _current;
+                                      DialogHelper.subsidiary = int.parse(sub.id);
+                                      DialogHelper.position = _current;
                                       DialogHelper.alone(context);
                                     },
                                     child: Container(
@@ -103,8 +103,7 @@ class _MassScreenState extends State<MassScreen> {
                                       height: size.height * 0.4,
                                       color: Colors.transparent,
                                       child: ClipRRect(
-                                        child: Image.asset(sub.image,
-                                            fit: BoxFit.cover),
+                                        child: Image.network(sub.image, fit: BoxFit.cover),
                                       ),
                                     ),
                                   ),

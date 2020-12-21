@@ -1,14 +1,14 @@
-import 'package:Misas/screens/autocheck_screen.dart';
-import 'package:Misas/screens/choose_mass_screen.dart';
-import 'package:Misas/screens/companions_screen.dart';
-import 'package:Misas/screens/delete_reservation_screen.dart';
-import 'package:Misas/screens/help_screen.dart';
-import 'package:Misas/screens/mass_screen.dart';
-import 'package:Misas/screens/profile_screen.dart';
-import 'package:Misas/screens/quantity_screen.dart';
-import 'package:Misas/screens/questions_screen.dart';
-import 'package:Misas/screens/signin_screen.dart';
-import 'package:Misas/services/auth_service.dart';
+import 'package:misas/screens/autocheck_screen.dart';
+import 'package:misas/screens/choose_mass_screen.dart';
+import 'package:misas/screens/companions_screen.dart';
+import 'package:misas/screens/delete_reservation_screen.dart';
+import 'package:misas/screens/help_screen.dart';
+import 'package:misas/screens/mass_screen.dart';
+import 'package:misas/screens/profile_screen.dart';
+import 'package:misas/screens/quantity_screen.dart';
+import 'package:misas/screens/questions_screen.dart';
+import 'package:misas/screens/signin_screen.dart';
+import 'package:misas/services/auth_service.dart';
 import 'package:flutter/material.dart';
 
 //Routes
@@ -40,18 +40,20 @@ class RouteGenerator{
       case _deleteMass:
         return MaterialPageRoute(builder: (_) => DeleteReservationScreen());
       case _quantity:
-      case _quantity:
-        return MaterialPageRoute(builder: (_) => QuantityScreen(subsidiaryIndex: settings.arguments,));
-      case _companions:
         List<String> args = settings.arguments;
         int index = int.parse(args[0]);
-        int quantity = int.parse(args[1]) - 1;
-        return MaterialPageRoute(builder: (_) => CompanionsScreen(subsidiaryIndex: index, quantity: quantity,));
+        int position = int.parse(args[1]);
+        return MaterialPageRoute(builder: (_) => QuantityScreen(subsidiaryIndex: index, inArrayPosition: position,));
+      case _companions:
+        List<String> args = settings.arguments;
+        int quantity = int.parse(args[0]) - 1;
+        return MaterialPageRoute(builder: (_) => CompanionsScreen(quantity: quantity,));
       case _chooseMass:
         List<String> args = settings.arguments;
         int index = int.parse(args[0]);
         int quantity = int.parse(args[1]);
-        return MaterialPageRoute(builder: (_) => ChooseMassScreen(subsidiaryIndex: index, quantity: quantity,));
+        int position = int.parse(args[2]);
+        return MaterialPageRoute(builder: (_) => ChooseMassScreen(subsidiaryIndex: index, quantity: quantity, inArrayPosition: position,));
       case _profile:
         return MaterialPageRoute(builder: (_) => ProfileScreen());
       case _help:

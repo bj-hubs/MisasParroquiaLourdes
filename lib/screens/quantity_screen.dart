@@ -1,12 +1,13 @@
-import 'package:Misas/shared/global.dart';
-import 'package:Misas/widgets/button_container.dart';
+import 'package:misas/shared/global.dart';
+import 'package:misas/widgets/button_container.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class QuantityScreen extends StatefulWidget {
   final int subsidiaryIndex;
+  final int inArrayPosition;
 
-  const QuantityScreen({Key key, this.subsidiaryIndex}) : super(key: key);
+  const QuantityScreen({Key key, this.subsidiaryIndex, this.inArrayPosition}) : super(key: key);
 
   @override
   _QuantityScreenState createState() => _QuantityScreenState();
@@ -86,7 +87,8 @@ class _QuantityScreenState extends State<QuantityScreen> {
               action: () {
                 Navigator.of(context).pushNamed('/mass/choose', arguments: [
                   widget.subsidiaryIndex.toString(),
-                  (_value + 1).toString()
+                  (_value + 1).toString(),
+                  widget.inArrayPosition.toString(),
                 ]);
               },
               width: double.infinity,

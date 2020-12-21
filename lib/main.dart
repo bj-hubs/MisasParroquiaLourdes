@@ -1,9 +1,9 @@
-import 'package:Misas/screens/help_screen.dart';
-import 'package:Misas/screens/mass_screen.dart';
-import 'package:Misas/screens/profile_screen.dart';
-import 'package:Misas/services/auth_service.dart';
-import 'package:Misas/shared/global.dart';
-import 'package:Misas/shared/route_generator.dart';
+import 'package:misas/screens/help_screen.dart';
+import 'package:misas/screens/mass_screen.dart';
+import 'package:misas/screens/profile_screen.dart';
+import 'package:misas/services/auth_service.dart';
+import 'package:misas/shared/global.dart';
+import 'package:misas/shared/route_generator.dart';
 import 'package:fancy_bottom_navigation/fancy_bottom_navigation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';

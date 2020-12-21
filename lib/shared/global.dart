@@ -1,5 +1,5 @@
-import 'package:Misas/models/subsidiary.dart';
-import 'package:Misas/models/user_info.dart';
+import 'package:misas/models/subsidiary.dart';
+import 'package:misas/models/user_info.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -20,16 +20,18 @@ abstract class Global{
   static bool isLogged;
 
   //Subsidiaries
-  static List<Subsidiary> subsidiaries = new List<Subsidiary>();
-  static fillSubsidiaries(){
-    subsidiaries.add(new Subsidiary('assets/images/lourdes.jpg','Nuestra Señora de Lourdes','Lourdes, Montes de Oca', secondary));
-    subsidiaries.add(new Subsidiary('assets/images/vargas.jpg','San Ignacio de Loyola','Vargas Araya, Montes de Oca', Colors.amberAccent));
-    subsidiaries.add(new Subsidiary('assets/images/cedros.jpg','Santa Rita de Casia','Cedros, Montes de Oca', Colors.orange[300]));
-    subsidiaries.add(new Subsidiary('assets/images/granadilla.jpg','Nuestra Señora de la Paz','Granadilla, Curridabat', Colors.deepOrange[300]));
+  static List<Subsidiary> subsidiaries = <Subsidiary>[];
+  static fillSubsidiaries() {
+    firestore.collection(subsidiaryRef).where('estado', isEqualTo: true).snapshots().listen((event) {
+      subsidiaries.clear();
+      event.docs.forEach((element) {
+        subsidiaries.add(new Subsidiary(element.id, element["picture"], element["name"], element["community"], getColor(element.id)));
+      });
+    });
   }
 
   //User Information Form
-  static List<String> userQuestions = new List<String>();
+  static List<String> userQuestions = <String>[];
   static fillUserQuestions(){
     userQuestions.add('Cédula');
     userQuestions.add('Primer Nombre');
@@ -79,4 +81,13 @@ abstract class Global{
     }
   }
 
+  static Color getColor(id){
+    switch(id){
+      case '0': return secondary; break;
+      case '1': return Colors.amberAccent; break;
+      case '2': return Colors.orange[300]; break;
+      case '3': return Colors.deepOrange[300]; break;
+      default: return secondary; break;
+    }
+  }
 }

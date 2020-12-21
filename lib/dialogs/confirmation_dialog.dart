@@ -1,5 +1,5 @@
-import 'package:Misas/dialogs/dialog_helper.dart';
-import 'package:Misas/shared/global.dart';
+import 'package:misas/dialogs/dialog_helper.dart';
+import 'package:misas/shared/global.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -11,6 +11,7 @@ class ConfirmationDialog extends StatefulWidget {
   final String day;
   final String massId;
   final List<dynamic> assistands;
+  final int inArrayPosition;
 
   const ConfirmationDialog(
       {Key key,
@@ -19,7 +20,7 @@ class ConfirmationDialog extends StatefulWidget {
       this.subsidiaryIndex,
       this.day,
       this.massId,
-      this.assistands})
+      this.assistands, this.inArrayPosition})
       : super(key: key);
 
   @override
@@ -105,14 +106,14 @@ class _ConfirmationDialogState extends State<ConfirmationDialog> {
                                   padding: const EdgeInsets.all(8.0),
                                   child: Text(
                                     Global
-                                        .subsidiaries[widget.subsidiaryIndex].name,
+                                        .subsidiaries[widget.inArrayPosition].name,
                                     style: TextStyle(fontSize: 16),
                                   ),
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Text(
-                                    Global.subsidiaries[widget.subsidiaryIndex]
+                                    Global.subsidiaries[widget.inArrayPosition]
                                         .community,
                                     style: TextStyle(fontSize: 16),
                                   ),
@@ -215,7 +216,7 @@ class _ConfirmationDialogState extends State<ConfirmationDialog> {
     int total = 0;
     int current = 0;
 
-    List<dynamic> result = new List<dynamic>();
+    List<dynamic> result = <dynamic>[];
 
     result.add(true);
 
@@ -350,6 +351,7 @@ class _ConfirmationDialogState extends State<ConfirmationDialog> {
       content: Text(message),
       duration: Duration(seconds: time, milliseconds: 0),
     );
+    // ignore: deprecated_member_use
     Scaffold.of(context).showSnackBar(snackBar);
   }
 }

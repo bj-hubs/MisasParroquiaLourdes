@@ -1,5 +1,5 @@
-import 'package:Misas/shared/global.dart';
-import 'package:Misas/widgets/button_container.dart';
+import 'package:misas/shared/global.dart';
+import 'package:misas/widgets/button_container.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 

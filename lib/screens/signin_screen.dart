@@ -1,4 +1,4 @@
-import 'package:Misas/shared/global.dart';
+import 'package:misas/shared/global.dart';
 import 'package:cupertino_stepper/cupertino_stepper.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -190,6 +190,7 @@ class _SignInScreenState extends State<SignInScreen> {
       content: Text(message),
       duration: Duration(seconds: 3, milliseconds: 0),
     );
+    // ignore: deprecated_member_use
     Scaffold.of(context).showSnackBar(snackBar);
   }
 

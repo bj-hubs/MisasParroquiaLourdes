@@ -1,6 +1,6 @@
-import 'package:Misas/dialogs/dialog_helper.dart';
-import 'package:Misas/models/question.dart';
-import 'package:Misas/shared/global.dart';
+import 'package:misas/dialogs/dialog_helper.dart';
+import 'package:misas/models/question.dart';
+import 'package:misas/shared/global.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:progress_stepper/progress_stepper.dart';
@@ -17,7 +17,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
     super.initState();
   }
 
-  List<Question> questions = new List<Question>();
+  List<Question> questions = <Question>[];
 
   fillQuestions() {
     questions.add(new Question('¿Tienes tos?', 1));

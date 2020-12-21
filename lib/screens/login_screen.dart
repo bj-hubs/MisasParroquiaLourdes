@@ -1,5 +1,5 @@
-import 'package:Misas/dialogs/dialog_helper.dart';
-import 'package:Misas/shared/global.dart';
+import 'package:misas/dialogs/dialog_helper.dart';
+import 'package:misas/shared/global.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';

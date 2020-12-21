@@ -1,15 +1,14 @@
-import 'package:Misas/dialogs/dialog_helper.dart';
-import 'package:Misas/shared/global.dart';
+import 'package:misas/dialogs/dialog_helper.dart';
+import 'package:misas/shared/global.dart';
 import 'package:cupertino_stepper/cupertino_stepper.dart';
 import 'package:flutter/material.dart';
 import 'package:international_phone_input/international_phone_input.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 class CompanionsScreen extends StatefulWidget {
-  final int subsidiaryIndex;
   final int quantity;
 
-  const CompanionsScreen({Key key, this.subsidiaryIndex, this.quantity})
+  const CompanionsScreen({Key key, this.quantity})
       : super(key: key);
 
   @override
@@ -248,6 +247,7 @@ class _CompanionsScreenState extends State<CompanionsScreen> {
       content: Text(message),
       duration: Duration(seconds: time, milliseconds: 0),
     );
+    // ignore: deprecated_member_use
     Scaffold.of(context).showSnackBar(snackBar);
   }
 

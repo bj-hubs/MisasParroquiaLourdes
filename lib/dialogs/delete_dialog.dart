@@ -1,4 +1,4 @@
-import 'package:Misas/shared/global.dart';
+import 'package:misas/shared/global.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -228,6 +228,7 @@ class _DeleteDialogState extends State<DeleteDialog> {
       content: Text(message),
       duration: Duration(seconds: time, milliseconds: 0),
     );
+    // ignore: deprecated_member_use
     Scaffold.of(context).showSnackBar(snackBar);
   }
 }

@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:Misas/services/auth_service.dart';
-import 'package:Misas/shared/global.dart';
+import 'package:misas/services/auth_service.dart';
+import 'package:misas/shared/global.dart';
 import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 

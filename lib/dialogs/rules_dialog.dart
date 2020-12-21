@@ -1,5 +1,5 @@
-import 'package:Misas/models/rule.dart';
-import 'package:Misas/shared/global.dart';
+import 'package:misas/models/rule.dart';
+import 'package:misas/shared/global.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:progress_stepper/progress_stepper.dart';
@@ -16,7 +16,7 @@ class _RulesDialogState extends State<RulesDialog> {
     super.initState();
   }
 
-  List<Rule> rules = new List<Rule>();
+  List<Rule> rules = <Rule>[];
 
   fillRules() {
     rules.add(new Rule(

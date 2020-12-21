@@ -1,5 +1,5 @@
-import 'package:Misas/dialogs/dialog_helper.dart';
-import 'package:Misas/shared/global.dart';
+import 'package:misas/dialogs/dialog_helper.dart';
+import 'package:misas/shared/global.dart';
 import 'package:flutter/material.dart';
 
 class CardEvent extends StatefulWidget {
@@ -55,7 +55,6 @@ class _CardEventState extends State<CardEvent> {
               widget.people > 1
                   ? Navigator.of(context).pushNamed('/mass/companions',
                       arguments: [
-                          widget.index.toString(),
                           widget.people.toString()
                         ])
                   : DialogHelper.confirmation(context);

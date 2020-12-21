@@ -1,14 +1,15 @@
-import 'package:Misas/dialogs/dialog_helper.dart';
-import 'package:Misas/shared/global.dart';
-import 'package:Misas/widgets/event_card.dart';
+import 'package:misas/dialogs/dialog_helper.dart';
+import 'package:misas/shared/global.dart';
+import 'package:misas/widgets/event_card.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class ChooseMassScreen extends StatefulWidget {
   final int subsidiaryIndex;
+  final int inArrayPosition;
   final int quantity;
 
-  const ChooseMassScreen({Key key, this.subsidiaryIndex, this.quantity})
+  const ChooseMassScreen({Key key, this.subsidiaryIndex, this.quantity, this.inArrayPosition})
       : super(key: key);
 
   @override
@@ -39,15 +40,27 @@ class _ChooseMassScreenState extends State<ChooseMassScreen> {
     DateTime nextMon = DateTime.now().add(Duration(days: daysToAddMonday));
     nextMon = DateTime(nextMon.year, nextMon.month, nextMon.day, 0, 0, 0);
 
+    DateTime showXMAS = DateTime(2020,12,21,0,0,0);
+
+    DateTime xmasEve = DateTime(2020, 12, 24, 0, 0, 0);
+    DateTime xmas = DateTime(2020, 12, 25, 0, 0, 0);
+    DateTime hideXmas = DateTime(2020, 12, 24, 16, 0, 0);
+
+
+    DateTime showNewYear = DateTime(2020,12,28,0,0,0);
+    DateTime newYearEve = DateTime(2020, 12, 31, 0, 0, 0);
+    DateTime newYear = DateTime(2021, 1, 1, 0, 0, 0);
+    DateTime hideNewYear = DateTime(2020, 12, 31, 16, 0, 0);
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         iconTheme: IconThemeData(color: Colors.black54),
         title: Text(
-          '${Global.subsidiaries[widget.subsidiaryIndex].name}',
+          '${Global.subsidiaries[widget.inArrayPosition].name}',
           style: TextStyle(fontSize: 20, color: Colors.black54),
         ),
-        backgroundColor: Global.subsidiaries[widget.subsidiaryIndex].color,
+        backgroundColor: Global.subsidiaries[widget.inArrayPosition].color,
       ),
       body: isUnderLimit(nextSat, nextSun) ? SingleChildScrollView(
         child: Center(
@@ -55,6 +68,189 @@ class _ChooseMassScreenState extends State<ChooseMassScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              showXMAS.isAfter(DateTime.now()) || hideXmas.isBefore(DateTime.now()) ? Container() : Padding(
+                padding: const EdgeInsets.only(top: 50),
+                child: Text(
+                  'Jueves 24 de Diciembre',
+                  style: TextStyle(fontSize: 25),
+                ),
+              ),
+              showXMAS.isAfter(DateTime.now()) || hideXmas.isBefore(DateTime.now()) ? Container() : Container(
+                  child: StreamBuilder(
+                stream: Global.firestore
+                    .collection(Global.subsidiaryRef)
+                    .doc(widget.subsidiaryIndex.toString())
+                    .collection(Global.massRef)
+                    .where('startDate', 
+                    isGreaterThanOrEqualTo: xmasEve, isLessThan: xmas)
+                    .snapshots(),
+                builder: (BuildContext context,
+                    AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (!snapshot.hasData) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  return Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: ListView(
+                      shrinkWrap: true,
+                      children: snapshot.data.docs.map((mass) {
+                        return CardEvent(
+                          start: getHour(mass['startDate']),
+                          end: getHour(mass['endDate']),
+                          index: widget.subsidiaryIndex,
+                          total: mass['totalSpaces'],
+                          current: mass['spacesTaken'],
+                          people: widget.quantity,
+                          color: Global.subsidiaries[widget.inArrayPosition].color,
+                          day: 'Jueves',
+                          date: mass['startDate'].toDate(),
+                          id: mass.id,
+                        );
+                      }).toList(),
+                    ),
+                  );
+                },
+              )),
+              showXMAS.isAfter(DateTime.now()) || hideXmas.isBefore(DateTime.now()) ? Container() : Padding(
+                padding: const EdgeInsets.only(top: 50),
+                child: Text(
+                  'Viernes 25 de Diciembre',
+                  style: TextStyle(fontSize: 25),
+                ),
+              ),
+              showXMAS.isAfter(DateTime.now()) || hideXmas.isBefore(DateTime.now()) ? Container() : Container(
+                  child: StreamBuilder(
+                stream: Global.firestore
+                    .collection(Global.subsidiaryRef)
+                    .doc(widget.subsidiaryIndex.toString())
+                    .collection(Global.massRef)
+                    .where('startDate', 
+                    isGreaterThanOrEqualTo: xmas,
+                    isLessThan: xmas.add(Duration(days: 1)))
+                    .snapshots(),
+                builder: (BuildContext context,
+                    AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (!snapshot.hasData) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  return Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: ListView(
+                      shrinkWrap: true,
+                      children: snapshot.data.docs.map((mass) {
+                        return CardEvent(
+                          start: getHour(mass['startDate']),
+                          end: getHour(mass['endDate']),
+                          index: widget.subsidiaryIndex,
+                          total: mass['totalSpaces'],
+                          current: mass['spacesTaken'],
+                          people: widget.quantity,
+                          color: Global.subsidiaries[widget.inArrayPosition].color,
+                          day: 'Viernes',
+                          date: mass['startDate'].toDate(),
+                          id: mass.id,
+                        );
+                      }).toList(),
+                    ),
+                  );
+                },
+              )),
+              showNewYear.isAfter(DateTime.now()) || hideNewYear.isBefore(DateTime.now()) ? Container() : Padding(
+                padding: const EdgeInsets.only(top: 50),
+                child: Text(
+                  'Jueves 31 de Diciembre',
+                  style: TextStyle(fontSize: 25),
+                ),
+              ),
+              showNewYear.isAfter(DateTime.now()) || hideNewYear.isBefore(DateTime.now()) ? Container() : Container(
+                  child: StreamBuilder(
+                stream: Global.firestore
+                    .collection(Global.subsidiaryRef)
+                    .doc(widget.subsidiaryIndex.toString())
+                    .collection(Global.massRef)
+                    .where('startDate', 
+                    isGreaterThanOrEqualTo: newYearEve,
+                    isLessThan: newYear)
+                    .snapshots(),
+                builder: (BuildContext context,
+                    AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (!snapshot.hasData) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  return Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: ListView(
+                      shrinkWrap: true,
+                      children: snapshot.data.docs.map((mass) {
+                        return CardEvent(
+                          start: getHour(mass['startDate']),
+                          end: getHour(mass['endDate']),
+                          index: widget.subsidiaryIndex,
+                          total: mass['totalSpaces'],
+                          current: mass['spacesTaken'],
+                          people: widget.quantity,
+                          color: Global.subsidiaries[widget.inArrayPosition].color,
+                          day: 'Jueves',
+                          date: mass['startDate'].toDate(),
+                          id: mass.id,
+                        );
+                      }).toList(),
+                    ),
+                  );
+                },
+              )),
+              showNewYear.isAfter(DateTime.now()) || hideNewYear.isBefore(DateTime.now()) ? Container() : Padding(
+                padding: const EdgeInsets.only(top: 50),
+                child: Text(
+                  'Viernes 1 de Enero',
+                  style: TextStyle(fontSize: 25),
+                ),
+              ),
+              showNewYear.isAfter(DateTime.now()) || hideNewYear.isBefore(DateTime.now()) ? Container() : Container(
+                  child: StreamBuilder(
+                stream: Global.firestore
+                    .collection(Global.subsidiaryRef)
+                    .doc(widget.subsidiaryIndex.toString())
+                    .collection(Global.massRef)
+                    .where('startDate', 
+                    isGreaterThanOrEqualTo: newYear,
+                    isLessThan: newYear.add(Duration(days: 1)))
+                    .snapshots(),
+                builder: (BuildContext context,
+                    AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (!snapshot.hasData) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  return Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: ListView(
+                      shrinkWrap: true,
+                      children: snapshot.data.docs.map((mass) {
+                        return CardEvent(
+                          start: getHour(mass['startDate']),
+                          end: getHour(mass['endDate']),
+                          index: widget.subsidiaryIndex,
+                          total: mass['totalSpaces'],
+                          current: mass['spacesTaken'],
+                          people: widget.quantity,
+                          color: Global.subsidiaries[widget.inArrayPosition].color,
+                          day: 'Viernes',
+                          date: mass['startDate'].toDate(),
+                          id: mass.id,
+                        );
+                      }).toList(),
+                    ),
+                  );
+                },
+              )),
               Padding(
                 padding: const EdgeInsets.only(top: 50),
                 child: Text(
@@ -85,7 +281,6 @@ class _ChooseMassScreenState extends State<ChooseMassScreen> {
                     child: ListView(
                       shrinkWrap: true,
                       children: snapshot.data.docs.map((mass) {
-                        print(mass);
                         return CardEvent(
                           start: getHour(mass['startDate']),
                           end: getHour(mass['endDate']),
@@ -93,7 +288,7 @@ class _ChooseMassScreenState extends State<ChooseMassScreen> {
                           total: mass['totalSpaces'],
                           current: mass['spacesTaken'],
                           people: widget.quantity,
-                          color: Global.subsidiaries[widget.subsidiaryIndex].color,
+                          color: Global.subsidiaries[widget.inArrayPosition].color,
                           day: 'Sábado',
                           date: mass['startDate'].toDate(),
                           id: mass.id,
@@ -118,7 +313,7 @@ class _ChooseMassScreenState extends State<ChooseMassScreen> {
                     .collection(Global.massRef)
                     .where('startDate',
                         isGreaterThanOrEqualTo: DateTime.now(),
-                        isLessThan: nextMon,
+                        isLessThan: nextSun.add(Duration(days: 1)),
                         isGreaterThan: nextSun)
                     .snapshots(),
                 builder: (BuildContext context,
@@ -140,8 +335,7 @@ class _ChooseMassScreenState extends State<ChooseMassScreen> {
                           total: mass['totalSpaces'],
                           current: mass['spacesTaken'],
                           people: widget.quantity,
-                          color:
-                              Global.subsidiaries[widget.subsidiaryIndex].color,
+                          color: Global.subsidiaries[widget.inArrayPosition].color,
                           day: 'Domingo',
                           date: mass['startDate'].toDate(),
                           id: mass.id,
@@ -196,8 +390,7 @@ class _ChooseMassScreenState extends State<ChooseMassScreen> {
 
   String getHour(Timestamp time) {
     DateTime date = time.toDate();
-    String timeText =
-        '${date.hour.toString().padLeft(2, '0')}:${date.minute.toString().padLeft(2, '0')}';
+    String timeText = '${date.hour.toString().padLeft(2, '0')}:${date.minute.toString().padLeft(2, '0')}';
     return timeText;
   }
 

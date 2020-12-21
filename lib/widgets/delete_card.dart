@@ -1,5 +1,5 @@
-import 'package:Misas/dialogs/dialog_helper.dart';
-import 'package:Misas/shared/global.dart';
+import 'package:misas/dialogs/dialog_helper.dart';
+import 'package:misas/shared/global.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -20,6 +20,15 @@ class DeleteCard extends StatefulWidget {
 class _DeleteCardState extends State<DeleteCard> {
   @override
   Widget build(BuildContext context) {
+    int pos;
+
+    for (var i = 0; i < Global.subsidiaries.length; i++) {
+       if(int.parse(Global.subsidiaries[i].id) == widget.subsidiary){
+          pos = i;
+          break;
+       } 
+    }
+
     return Card(
       color: Global.primary,
       child: Container(
@@ -36,7 +45,7 @@ class _DeleteCardState extends State<DeleteCard> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    '${Global.subsidiaries[widget.subsidiary].community}',
+                    '${Global.subsidiaries[pos].community}',
                     style: TextStyle(
                       fontSize: 16,
                       color: Colors.white,
